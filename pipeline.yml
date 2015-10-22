@@ -1,0 +1,28 @@
+---
+jobs:
+- name: job-build-deploy-app
+  public: true
+  serial: true
+  plan:
+  - aggregate:
+    - get: resource-hellocloud-app
+      trigger: true
+  - aggregate:
+    - task: build-hellocloud-app
+      config:
+        platform: linux
+        image: docker:///stuartblair/javabuild
+        inputs:
+          - name: resource-hellocloud-app
+        run:
+          path: ./resource-hellocloud-app/gradlew
+          args:
+            - --build-file
+            - ./resource-hellocloud-app/build.gradle
+            - build
+
+resources:
+- name: resource-hellocloud-app
+  type: git
+  source:
+    uri: https://github.com/stuartblair/hellocloud.git
