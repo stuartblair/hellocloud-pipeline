@@ -20,9 +20,24 @@ jobs:
             - --build-file
             - ./resource-hellocloud-app/build.gradle
             - build
+  - aggregate:
+    - put: resource-deploy-hellocloud-app
+      params:
+        manifest: resource-hellocloud-app/manifest.yml
+        path: resource-hellocloud-app
 
 resources:
 - name: resource-hellocloud-app
   type: git
   source:
     uri: https://github.com/stuartblair/hellocloud.git
+
+- name: resource-deploy-web-app
+  type: cf
+  source:
+    api: {{cf-api}}
+    username: {{cf-username}}
+    password: {{cf-password}}
+    organization: {{cf-organization}}
+    space: {{cf-space}}
+    skip_cert_check: true
