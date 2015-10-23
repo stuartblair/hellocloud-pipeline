@@ -17,9 +17,8 @@ jobs:
         run:
           path: ./resource-hellocloud-app/gradlew
           args:
-            - --build-file
-            - ./resource-hellocloud-app/build.gradle
-            - build
+            - .
+            - ./resource-hellocloud-app/ci
   - aggregate:
     - put: resource-deploy-hellocloud-app
       params:
