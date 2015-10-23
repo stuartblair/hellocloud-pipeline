@@ -32,7 +32,7 @@ resources:
   source:
     uri: https://github.com/stuartblair/hellocloud.git
 
-- name: resource-deploy-web-app
+- name: resource-deploy-hellocloud-app
   type: cf
   source:
     api: {{cf-api}}
