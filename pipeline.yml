@@ -1,33 +1,34 @@
 ---
 jobs:
-- name: job-build-deploy-app
+- name: build-deploy
   public: true
   serial: true
   plan:
   - aggregate:
-    - get: resource-hellocloud-app
+    - get: hellocloud
       trigger: true
   - aggregate:
-    - task: build-hellocloud-app
+    - task: build-hellocloud
       config:
         platform: linux
         image: docker:///stuartblair/javabuild
         inputs:
-          - name: resource-hellocloud-app
+          - name: hellocloud
         run:
-          path: ./resource-hellocloud-app/ci
+          path: ./hellocloud/ci
   - aggregate:
-    - put: resource-deploy-hellocloud-app
+    - put: deployment
       params:
-        manifest: resource-hellocloud-app/manifest.yml
+        manifest: hellocloud/manifest.yml
+        path: ../put/build-hellocloud/hellocloud/build/libs/hellocloud-0.0.1-SNAPSHOT.jar
 
 resources:
-- name: resource-hellocloud-app
+- name: hellocloud
   type: git
   source:
     uri: https://github.com/stuartblair/hellocloud.git
 
-- name: resource-deploy-hellocloud-app
+- name: deployment
   type: cf
   source:
     api: {{cf-api}}
