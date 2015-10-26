@@ -15,15 +15,11 @@ jobs:
         inputs:
           - name: resource-hellocloud-app
         run:
-          path: ./resource-hellocloud-app/gradlew
-          args:
-            - .
-            - ./resource-hellocloud-app/ci
+          path: ./resource-hellocloud-app/ci
   - aggregate:
     - put: resource-deploy-hellocloud-app
       params:
         manifest: resource-hellocloud-app/manifest.yml
-        path: resource-hellocloud-app
 
 resources:
 - name: resource-hellocloud-app
