@@ -4,23 +4,20 @@ jobs:
   public: true
   serial: true
   plan:
-  - aggregate:
-    - get: hellocloud
-      trigger: true
-  - aggregate:
-    - task: build-hellocloud
-      config:
-        platform: linux
-        image: docker:///stuartblair/javabuild
-        inputs:
-          - name: hellocloud
-        run:
-          path: ./hellocloud/ci
-  - aggregate:
-    - put: deployment
-      params:
-        manifest: hellocloud/manifest.yml
-        path: ../put/build-hellocloud/hellocloud/build/libs/hellocloud-0.0.1-SNAPSHOT.jar
+  - get: hellocloud
+    trigger: true
+  - task: build-hellocloud
+    config:
+      platform: linux
+      image: docker:///stuartblair/javabuild
+      inputs:
+        - name: hellocloud
+      run:
+        path: ./hellocloud/ci
+  - put: deployment
+    params:
+      manifest: hellocloud/manifest.yml
+      path: ../put/build-hellocloud/hellocloud/build/libs/hellocloud-0.0.1-SNAPSHOT.jar
 
 resources:
 - name: hellocloud
