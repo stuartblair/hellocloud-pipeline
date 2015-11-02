@@ -23,7 +23,8 @@ resources:
 - name: hellocloud
   type: git
   source:
-    uri: https://github.com/stuartblair/hellocloud.git
+    uri: http://github.gapinc.dev/St752kx/hellocloud.git
+    private_key: {{hellocloud-github-private-key}}
 
 - name: deployment
   type: cf
